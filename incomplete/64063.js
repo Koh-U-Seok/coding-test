@@ -26,30 +26,46 @@
 // room_number 배열은 모든 고객이 방을 배정받을 수 있는 경우만 입력으로 주어집니다.
 // 예를 들어, k = 5, room_number = [5, 5] 와 같은 경우는 방을 배정받지 못하는 고객이 발생하므로 이런 경우는 입력으로 주어지지 않습니다.
 
-function solution(k, room_number) {
-  let arrK = [];
-  arrK.length = k;
+// function roomMatching(room_number, rooms) {
+//   if (!rooms[room_number - 1]) {
+//     rooms[room_number - 1] = room_number;
+//   } else if (rooms[room_number - 1]) {
+//     return roomMatching(++room_number, rooms);
+//   }
+//   return [room_number, rooms];
+// }
 
-  for (let i = 0; i < room_number.length; i++) {
-    for (let j = 0; j < room_number.length; j++) {
-      if (arrK[room_number[i] - 1] == undefined) {
-        arrK[room_number[i] - 1] = room_number[i];
-        console.log("arrK : ", arrK);
-        break;
-      } else {
-        for (let l = j; l < room_number.length; l++) {
-          if (arrK[l] == undefined) {
-            console.log("arrK[l],j ", arrK[l], j);
-            console.log(arrK.indexOf(arrK[room_number[l] - 1]));
-            arrK[room_number[l] - 1] = room_number[l];
-            break;
-          }
-        }
-      }
-    }
+// function solution(k, room_number) {
+//   let rooms = [];
+//   let result = [];
+//   for (let i = 0; i < room_number.length; i++) {
+//     [room_number[i], rooms] = roomMatching(room_number[i], rooms);
+//     result.push(room_number[i]);
+//     result[i] = room_number[i];
+//   }
+//   return result;
+// }
+// 효율성이 좋지 않아 퇴짜맞음
+
+function roomMatching(room_number, rooms) {
+  if (!rooms.has(room_number)) {
+    rooms.set(room_number, room_number + 1);
+    return room_number;
+  } else {
+    const temp = roomMatching(rooms.get(room_number), rooms);
+    rooms.set(room_number, temp + 1);
+    return temp;
   }
-  console.log("result : ", arrK);
-  return;
 }
 
-solution(10, [1, 3, 4, 1, 3, 1]); // [1,3,4,2,5,8]
+function solution(k, room_number) {
+  let rooms = new Map();
+  let result = [];
+  for (let i = 0; i < room_number.length; i++) {
+    result.push(roomMatching(room_number[i], rooms));
+  }
+
+  return result;
+}
+
+console.log("솔루션의 결과 첫번째 : ", solution(10, [1, 3, 4, 1, 3, 1])); // [1,3,4,2,5,6]

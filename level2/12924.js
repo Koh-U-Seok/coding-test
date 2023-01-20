@@ -18,21 +18,26 @@
 // 입출력 예 설명
 // 입출력 예#1
 // 문제의 예시와 같습니다.
-// s	                  return
-// "1 2 3 4"	          "1 4"
-// "-1 -2 -3 -4"	      "-4 -1"
-// "-1 -1"	            "-1 -1"
 
-function solution(s) {
-  let arr = s.split(" ").map((item) => +item);
-  return `${Math.min(...arr)} ${Math.max(...arr)}`;
+function solution(n) {
+  // let result =0;
+  // let add=0;
+  // for(let i = 1;i<n+1;i++){
+  //     for(let j=i;j<n+1;j++){
+  //         add+=j;
+  //         if(add == n) result++;
+  //     }
+  //     add = 0;
+  // }
+  // return result;
+  let result = 0;
+  for (let i = 0; i < n + 1; i++) {
+    if (n % i == 0 && i % 2 == 1) result++;
+  }
+  return result;
 }
 
-console.log(solution("1 2 3 4"));
-console.log(solution("-1 -2 -3 -4"));
-console.log(solution("-1 -1"));
-
-// 결과
-// 1 4
-// -4 -1
-// -1 -1
+console.log(solution(15)); //4
+// 취소선 처리된 곳은 통과는 되었으나 효율성에서 탈락하였다.
+// 그 후 검색해서 나온 해결법은 수학적인 지식이 필요했다...
+// (연속된 자연수를 더해서 n과 일치하는 방법의 갯수)와 (홀수인 약수의 갯수)는 일치하는 것을 이용한 해결법이다.
